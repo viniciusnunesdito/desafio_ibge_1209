@@ -19,12 +19,27 @@ Caso ainda não tenha esse projeto no seu computador, clone o repositório:
 
 ```bash
 git clone https://github.com/viniciusnunesdito/desafio_ibge_1209
+cd desafio_ibge_1209
 ```
 
-Abra o projeto e instale as depêndencias:
+Crie e ative um ambiente virtual:
 
 ```bash
-pip install -r requirements
+# Criar
+python -m venv .venv
+
+# Ativar — Windows
+.venv\Scripts\activate
+
+# Ativar — Linux/macOS
+source .venv/bin/activate
+```
+
+Instale as dependências:
+
+```bash
+pip install -r requirements.txt
+playwright install chromium
 ```
 ---
 
