@@ -1,38 +1,79 @@
+# Desafio Técnico – Automação RPA SIDRA/IBGE
+
+Automação que navega pelo site do SIDRA/IBGE, localiza a tabela **1209** (População por grupos de idade), configura os filtros para **60 anos ou mais** segmentados por **Unidades da Federação**, e faz o download dos dados em CSV.
+
+---
+
 ## Pré-requisitos
 
 - Python 3 instalado
-- Playwright instalado
-- Navegador Chromium disponível pelo Playwright
+- pip
+
+---
 
 ## Instalação
 
-- Caso ainda não tenha esse projeto no seu computador, clone o repositório com esse código:
+Caso ainda não tenha o Python instalado, baixe em: https://www.python.org/downloads/
+
+Caso ainda não tenha esse projeto no seu computador, clone o repositório:
 
 ```bash
 git clone https://github.com/viniciusnunesdito/desafio_ibge_1209
 ```
 
-- Com o python instalado em sua máquina, basta abrir esse projeto e fazer essas instalações:
+Abra o projeto e instale as depêndencias abaixo:
 
 ```bash
 pip install playwright
 playwright install chromium
 ```
 
+---
+
 ## Execução
 
-- Estando com tudo instalado e com o projeto no seu computador, basta utilizar esse comando para executar a automação:
-
 ```bash
-python main.py
+python desafio_ibge_1209.py
 ```
 
-## Desafios encontrados
+---
 
-- Sei utilizar muito bem o Selenium, porém após fazer pesquisas, percebi que o playwright poderia ser mais eficiente para o site do SIDRA/IBGE, então tive o desafio de aprender essa tecnologia para utilizar nesse projeto, porém achei ele muito parecido com o Selenium.
+## Dependências
 
-- No momento de configurar os filtros das tabelas de grupo de idade e ano da pesquisa, preferi utilizar um método mais trabalhoso, porém mais versátil em caso de mudanças no site. Em vez de usar diretamente os seletores "≥ 60" na tabela de grupos de idade e selecionar o primeiro dado na tabela do ano da pesquisa (que, no estado atual do site, corresponde à opção mais recente), considerei mais adequado criar funções para identificar e selecionar as opções corretas para essa automação, independentemente da posição das caixas de seleção (checkboxes).
+| Pacote | Função |
+|---|---|
+| `playwright` | Automação de browser (Chromium) |
 
-- O filtro de Unidade Territorial não utiliza o mesmo tipo de tabela, ele utiliza árvores, então tive que mudar um pouco a abordagem no momento de filtrar somente pela Unidade da Federação, pois se eu "descesse" todos os níveis das árvores, acabaria por desmarcar "Em Grande Região" após ter marcado a árvore pai que é a "Unidade da Federação".
+---
 
-- Na parte do download aprendi a usar o expect_download(), coisa que eu não havia feito anteriormente com Selenium, e até onde sei, o Selenium não tem algo para monitorar downloads.
+## Estratégia adotada
+
+A automação inicia obrigatoriamente pela homepage `https://sidra.ibge.gov.br/` e localiza a tabela 1209 através do campo de busca interno do site — digitando "1209" e clicando em OK — sem acessar a URL da tabela diretamente.
+
+Após acessar a tabela, os filtros são configurados na seguinte ordem:
+
+1. **Variável** — seleciona apenas "População (Pessoas)"
+2. **Grupo de idade** — desmarca todos e seleciona apenas os grupos de 60 anos ou mais, usando regex para identificar as faixas etárias independente de como o site as nomeia
+3. **Ano** — lê todos os anos disponíveis dinamicamente e seleciona o mais recente, sem assumir que ele sempre estará em uma posição fixa na lista
+4. **Unidade territorial** — navega pela árvore de níveis territoriais e seleciona apenas "Unidade da Federação", sem descer nos níveis filhos
+
+Por fim, o modal de download é aberto, o formato CSV (BR) é selecionado e o arquivo é salvo automaticamente em `dados/populacao_60mais_1209.csv`.
+
+---
+
+## Principais desafios encontrados
+
+**Aprendizado do Playwright**
+Tenho experiência com Selenium, porém após pesquisar percebi que o Playwright seria mais eficiente para o site do SIDRA/IBGE. Achei a transição tranquila pois as duas ferramentas são bastante parecidas.
+
+**Seleção dos grupos de idade**
+Em vez de usar seletores fixos assumindo que os grupos "60+" sempre terão os mesmos nomes e posições, criei uma função com regex que identifica qualquer grupo cuja faixa etária comece em 60 ou mais — tornando o script resistente a mudanças no site.
+
+**Seleção do ano mais recente**
+Em vez de assumir que o ano mais recente sempre estará no topo da lista, o script lê todos os anos disponíveis, compara os valores e seleciona o maior — independente da ordem em que aparecem.
+
+**Árvore de territórios**
+O filtro de Unidade Territorial usa uma estrutura de árvore diferente dos outros painéis. Foi necessário iterar apenas pelos itens de primeiro nível da árvore para não descer nos estados filhos e desmarcar inadvertidamente os territórios corretos.
+
+**Download com expect_download()**
+O Playwright oferece o `expect_download()` para capturar o evento real de download antes de clicar no botão — algo que o Selenium não tem de forma nativa e que exigiria monitorar a pasta de downloads manualmente.
