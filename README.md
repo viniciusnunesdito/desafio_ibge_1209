@@ -15,7 +15,7 @@ Automação que navega pelo site do SIDRA/IBGE, localiza a tabela **1209** (Popu
 
 Caso ainda não tenha o Python instalado, baixe em: https://www.python.org/downloads/
 
-Caso ainda não tenha esse projeto no seu computador, clone o repositório:
+Clone o repositório:
 
 ```bash
 git clone https://github.com/viniciusnunesdito/desafio_ibge_1209
