@@ -21,8 +21,14 @@ playwright install chromium
 
 ## Execução
 
-- Para executar a automação, basta utilizar esse comando:
+- Estando com tudo instalado e com o projeto no seu computador, basta utilizar esse comando para executar a automação:
 
 ```bash
 python main.py
 ```
+
+## Desafios encontrados
+
+- Sei utilizar muito bem o Selenium, porém após fazer pesquisas, percebi que o playwright poderia ser mais eficiente para o site do SIDRA/IBGE, então tive o desafio de aprender essa tecnologia para utilizar nesse projeto.
+
+- No momento de configurar os filtros das tabelas de grupo de idade e ano da pesquisa, preferi utilizar um método mais trabalhoso, porém mais versátil em caso de mudanças no site. Em vez de usar diretamente os seletores "≥ 60" na tabela de grupos de idade e selecionar o primeiro dado na tabela do ano da pesquisa (que, no estado atual do site, corresponde à opção mais recente), considerei mais adequado criar funções para identificar e selecionar as opções corretas para essa automação, independentemente da posição das caixas de seleção (checkboxes).
