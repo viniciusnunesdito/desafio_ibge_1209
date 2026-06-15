@@ -6,7 +6,7 @@ Automação que navega pelo site do SIDRA/IBGE, localiza a tabela **1209** (Popu
 
 ## Pré-requisitos
 
-- Python 3 instalado
+- Python 3.12.10 ou superior
 - pip
 
 ---
@@ -21,13 +21,11 @@ Caso ainda não tenha esse projeto no seu computador, clone o repositório:
 git clone https://github.com/viniciusnunesdito/desafio_ibge_1209
 ```
 
-Abra o projeto e instale as depêndencias abaixo:
+Abra o projeto e instale as depêndencias:
 
 ```bash
-pip install playwright
-playwright install chromium
+pip install -r requirements
 ```
-
 ---
 
 ## Execução
