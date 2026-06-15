@@ -76,4 +76,4 @@ Em vez de assumir que o ano mais recente sempre estará no topo da lista, o scri
 O filtro de Unidade Territorial usa uma estrutura de árvore diferente dos outros painéis. Foi necessário iterar apenas pelos itens de primeiro nível da árvore para não descer nos estados filhos e desmarcar inadvertidamente os territórios corretos.
 
 **Download com expect_download()**
-O Playwright oferece o `expect_download()` para capturar o evento real de download antes de clicar no botão — algo que o Selenium não tem de forma nativa e que exigiria monitorar a pasta de downloads manualmente.
+O Playwright oferece o `expect_download()` para capturar o evento real de download antes de clicar no botão, algo que o Selenium não tem de forma nativa e que exigiria monitorar a pasta de downloads manualmente. Essa função foi uma novidade, pois é a primeira vez que utilizo Playwright.
